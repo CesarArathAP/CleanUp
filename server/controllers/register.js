@@ -23,7 +23,7 @@ const register = async (req, res) => {
     // Crear un nuevo usuario usando el modelo existente
     const newUser = new User({
       usuario: {
-        id: Date.now().toString(),
+        // id: Date.now().toString(),
         datosPersonales: {
           nombre,
           apellidos,
