@@ -46,15 +46,22 @@ const notificacionSchema = new mongoose.Schema({
   estado: { type: String, required: true } // "leído", "pendiente", etc.
 }, { _id: false });
 
+// Subesquema para likes
+const likeSchema = new mongoose.Schema({
+  idUsuario: { type: String, required: true },
+  nombre: { type: String, required: true }
+}, { _id: false });
+
 // Subesquema para publicaciones
 const publicacionSchema = new mongoose.Schema({
   idPublicacion: { type: String, required: true },
   contenido: { type: String, required: true },
   imagenes: [{ type: String }],
-  likes: [{ type: String }], // IDs de usuarios que dieron "like"
+  likes: [likeSchema], // Lista de objetos de likes
   fechaPublicacion: { type: Date, default: Date.now }
 }, { _id: false });
 
+// (Resto del modelo permanece igual)
 const userSchema = new mongoose.Schema({
   usuario: {
     datosPersonales: datosPersonalesSchema,
@@ -63,7 +70,7 @@ const userSchema = new mongoose.Schema({
     grupos: [grupoSchema],
     notificaciones: [notificacionSchema],
     publicaciones: [publicacionSchema],
-    puntosTotales: { type: Number, default: 0 } // Total de puntos acumulados por el usuario
+    puntosTotales: { type: Number, default: 0 }
   }
 });
 
