@@ -9,6 +9,8 @@ const join_group = require('./routes/join_group');
 const solicitudes = require('./routes/applications_sent');
 const enviar_message = require('./routes/send_message');
 const calculate_ranking = require('./routes/calculate_rankign');
+const create_post = require('./routes/create_post');
+const give_like = require('./routes/give_like');
 // Conectar a la base de datos
 db();
 // Crear instancia de Express
@@ -25,6 +27,8 @@ app.use('/api/join/group', join_group);
 app.use('/api/solicitudes/enviadas/grupos', solicitudes);
 app.use('/api/enviar/mensajes/grupos', enviar_message);
 app.use('/api/calculate/ranking/users', calculate_ranking);
+app.use('/api/create/post/user', create_post);
+app.use('/api/give/likes/publications', give_like);
 app.use('/api/images', imageRoutes);
 // Iniciar el servidor
 const PORT = process.env.PORT || 3000;
