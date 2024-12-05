@@ -34,7 +34,6 @@ const groupSchema = new mongoose.Schema({
   mensajes: [mensajeSchema],
   fechaCreacion: { type: Date, default: Date.now },
   rankingGrupo: [historialPuntosSchema], // Historial de puntos del grupo por semana
-  puntos: { type: Number, default: 0 },  // Puntos totales del grupo
   rutasRecoleccion: [{ type: String }]   // Rutas asignadas al grupo
 });
 
