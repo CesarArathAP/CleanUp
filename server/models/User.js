@@ -18,9 +18,20 @@ const credencialesSchema = new mongoose.Schema({
   ultimoInicioSesion: { type: Date }
 }, { _id: false });
 
+// Subesquema para actividades del usuario
+const actividadUsuarioSchema = new mongoose.Schema({
+  idActividad: { type: String, required: true },
+  direccion: { type: String, required: true },
+  fechaInicio: { type: Date, required: true },
+  horaInicio: { type: String, required: true },
+  fechaFin: { type: Date },
+  horaFin: { type: String },
+  estado: { type: String, default: 'iniciada' }
+}, { _id: false });
+
 // Subesquema para actividad
 const actividadSchema = new mongoose.Schema({
-  rutasRecorridas: [{ type: String }],
+  rutasRecorridas: [actividadUsuarioSchema], // Aquí se corrige el arreglo con el subesquema
   rankingIndividual: [{
     semana: { type: Date, required: true }, // Inicio de la semana
     puntos: { type: Number, default: 0 }   // Puntos acumulados esa semana
