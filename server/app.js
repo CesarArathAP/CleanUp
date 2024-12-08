@@ -13,6 +13,7 @@ const create_post = require('./routes/create_post');
 const give_like = require('./routes/give_like');
 const activities = require('./routes/activities');
 const finishTour = require('./routes/finish_tour');
+const grant_rewards = require('./routes/grant_rewards');
 // Conectar a la base de datos
 db();
 // Crear instancia de Express
@@ -33,6 +34,7 @@ app.use('/api/create/post/user', create_post);
 app.use('/api/give/likes/publications', give_like);
 app.use('/api/activitie/group/start', activities);
 app.use('/api/finalizar/recorrido', finishTour);
+app.use('/api/otorgar/recompensa/user', grant_rewards);
 app.use('/api/images', imageRoutes);
 // Iniciar el servidor
 const PORT = process.env.PORT || 3000;
