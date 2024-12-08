@@ -66,10 +66,9 @@ const grantReward = async (req, res) => {
     // Guardar los cambios en el usuario
     await usuario.save();
 
+    // Solo devolver el mensaje de éxito
     res.status(200).json({
-      message: 'Recompensa otorgada con éxito.',
-      recompensaGrupo: nuevaRecompensaGrupo,
-      recompensaUsuario: nuevaRecompensaUsuario
+      message: 'Recompensa otorgada con éxito.'
     });
   } catch (error) {
     console.error('Error al otorgar recompensa:', error);
