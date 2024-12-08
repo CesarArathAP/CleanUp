@@ -1,4 +1,3 @@
-// controllers/authController.js
 const User = require('../models/User');
 
 const loginAttempts = {}; // Objeto para rastrear intentos de inicio de sesión
@@ -26,17 +25,44 @@ const login = async (req, res) => {
       return res.status(401).json({ message: 'Usuario no encontrado' });
     }
 
-    // Verificar la contraseña (deberías usar hashing en producción)
+    // Verificar la contraseña (comparar directamente)
     if (user.usuario.credenciales.passwordHash === password) {
       // Reiniciar intentos al iniciar sesión exitosamente
       resetLoginAttempts(username);
-      return res.status(200).json({ message: 'Inicio de sesión exitoso', user: user.usuario });
+
+      // Generar un token único de 32 caracteres
+      const token = generateToken();
+
+      // Establecer fecha de expiración (por ejemplo, 1 semana)
+      const expirationDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 días en milisegundos
+
+      // Crear un nuevo objeto de token
+      const tokenData = {
+        token: token,
+        expirationDate: expirationDate
+      };
+
+      // Actualizar el último inicio de sesión y agregar el token
+      user.usuario.credenciales.ultimoInicioSesion = new Date();
+      user.usuario.credenciales.tokens.push(tokenData); // Almacenar el token en el array de tokens
+
+      // Guardar los cambios en el usuario
+      await user.save();
+
+      // Retornar el token al cliente
+      return res.status(200).json({
+        message: 'Inicio de sesión exitoso',
+        user: user.usuario,
+        token: token, // Enviar el token generado
+        expiresIn: 604800 // El token es válido por una semana (en segundos)
+      });
     } else {
       // Incrementar intentos si la contraseña es incorrecta
       trackLoginAttempt(username);
       return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ message: 'Error del servidor' });
   }
 };
@@ -53,6 +79,13 @@ const trackLoginAttempt = (username) => {
 // Función para reiniciar los intentos
 const resetLoginAttempts = (username) => {
   delete loginAttempts[username];
+};
+
+// Función para generar un token de 32 caracteres
+const generateToken = () => {
+  const timestamp = Date.now().toString(36); // Convertir el timestamp a base 36
+  const randomString = Math.random().toString(36).substring(2, 18); // Cadena aleatoria de 16 caracteres
+  return timestamp + randomString; // Combinar ambos para obtener un token de 32 caracteres
 };
 
 // Exportar las funciones
