@@ -14,6 +14,8 @@ const give_like = require('./routes/give_like');
 const activities = require('./routes/activities');
 const finishTour = require('./routes/finish_tour');
 const grant_rewards = require('./routes/grant_rewards');
+const get_groups = require('./routes/get_groups');
+const get_publications = require('./routes/get_publications');
 // Conectar a la base de datos
 db();
 // Crear instancia de Express
@@ -22,7 +24,7 @@ const app = express();
 app.use(cors());
 // Middleware para parsear JSON
 app.use(express.json());
-// Integrar enrutadores
+// APIS POST
 app.use('/auth', authRoutes);
 app.use('/api/register', registerRoutes);
 app.use('/api/groups/create', create_group);
@@ -35,6 +37,9 @@ app.use('/api/give/likes/publications', give_like);
 app.use('/api/activitie/group/start', activities);
 app.use('/api/finalizar/recorrido', finishTour);
 app.use('/api/otorgar/recompensa/user', grant_rewards);
+// APIS GET
+app.use('/api/get/groups', get_groups);
+app.use('/api/get/publications', get_publications);
 app.use('/api/images', imageRoutes);
 // Iniciar el servidor
 const PORT = process.env.PORT || 3000;
