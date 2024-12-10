@@ -1,3 +1,4 @@
+
 const path = require('path');
 const fs = require('fs');
 
@@ -9,6 +10,7 @@ const getImageProfile = (req, res) => {
   const paths = [
     path.join(__dirname, '../uploads/profile', imageName),
     path.join(__dirname, '../uploads/profileUsers', imageName),
+    path.join(__dirname, '../uploads/images', imageName),
   ];
 
   // Buscar la imagen en ambas rutas
